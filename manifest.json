@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+  "minimum_chrome_version": "49",
+  
+  "name": "Holy Chrome",
+  "description": "新标签页替换 / 后台占位符 / 自带 GOTO / BZOJ 功能增强",
+  "version": "1.5",
+  "icons": {
+    "48": "icon-48.png"
+  },
+  "permissions": [
+    "background",
+    "tabs"
+  ],
+  
+  "chrome_url_overrides" : {
+    "newtab": "blank.html"
+  },
+  "omnibox": {"keyword": "\\"},
+  
+  "background": {
+    "scripts": ["goto.js","bzoj/background.js"]
+  },
+  "content_scripts": [
+    {"matches": ["http://www.lydsy.com/JudgeOnline/problem.php?id=*"], "js": ["bzoj/desc_page.js"], "run_at": "document_end"},
+    {"matches": ["http://www.lydsy.com/JudgeOnline/status.php","http://www.lydsy.com/JudgeOnline/status.php?*"], "js": ["bzoj/status_page.js"], "run_at": "document_end"},
+    {"matches": ["http://www.lydsy.com/JudgeOnline/*"], "js": ["bzoj/global.js"], "run_at": "document_end"}
+  ],
+  "options_page": "options/options.html"
+}
