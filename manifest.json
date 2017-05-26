@@ -4,7 +4,7 @@
   
   "name": "Holy Chrome",
   "description": "新标签页替换 / 后台占位符 / 自带 GOTO / BZOJ 功能增强",
-  "version": "1.7",
+  "version": "2.0",
   "icons": {
     "48": "icon-48.png"
   },
