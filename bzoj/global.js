@@ -41,10 +41,3 @@ if(document.title.charAt(0)==='5' && document.body && document.body.getAttribute
 if(username && status_header) {
     status_header.parentNode.insertBefore(add_btn('[My]','/JudgeOnline/status.php?user_id='+username.textContent),status_header);
 }
-if(problems_header) {
-    problems_header.parentNode.insertBefore(add_btn('[Search]','#',function() {
-        var res=prompt('Search:');
-        if(res)
-            location.href='/JudgeOnline/problemset.php?search='+encodeURIComponent(res);
-    }),problems_header);
-}
