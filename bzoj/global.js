@@ -23,11 +23,17 @@ if(document.title.charAt(0)==='5' && document.body && document.body.getAttribute
         cancelbtn.textContent='Refreshing...';
         cancelbtn.setAttribute('disabled','disabled');
         location.reload();
-    } ,1000);    
+    } ,1000);
     cancelbtn.addEventListener('click',function() {
         clearTimeout(refreshid);
         cancelbtn.parentNode.removeChild(cancelbtn);
     });
+}
+
+// resolve login request
+if(document.querySelector('a[href="loginpage.php"]') && location.href.indexOf('submitpage.php')!==-1) {
+    history.pushState(null,'',location.href); // thus redirect-back will work
+    location.href='loginpage.php';
 }
 
 // hide link
@@ -41,3 +47,16 @@ if(document.title.charAt(0)==='5' && document.body && document.body.getAttribute
 if(username && status_header) {
     status_header.parentNode.insertBefore(add_btn('[My]','/JudgeOnline/status.php?user_id='+username.textContent),status_header);
 }
+
+// one-key to-top
+var topper=document.createElement('div');
+topper.style.position='fixed';
+topper.style.height='100%';
+topper.style.width='3px';
+topper.style.top='0';
+topper.style.left='0';
+topper.style.backgroundColor='rgba(0,0,255,.2)';
+topper.addEventListener('click',function() {
+    scrollTo(0,0);
+});
+document.body.appendChild(topper);

@@ -4,14 +4,14 @@ var bottomobj=document.querySelector('a~hr');
 
 function search() {
     var store=db.transaction([DBSTORE],'readwrite').objectStore(DBSTORE);
-    var query=searchbox.value.toLowerCase();
+    var query=new RegExp(searchbox.value,'i');
     var counter=0;
     tbl.innerHTML='';
     store.openCursor().onsuccess=function(evt) {
       var cursor=evt.target.result;
       if(!cursor) return;
       
-      if(cursor.value.text.toLowerCase().indexOf(query)!==-1) {              
+      if(query.test(cursor.value.text)) {              
           counter++;
           var elem=document.createElement('tr');
           elem.className=counter%2?'evenrow':'oddrow';
