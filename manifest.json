@@ -3,8 +3,8 @@
   "minimum_chrome_version": "49",
   
   "name": "Holy Chrome",
-  "description": "新标签页替换 / 后台占位符 / 自带 GOTO",
-  "version": "3.6",
+  "description": "新标签页替换 / 后台占位符 / 自带 GOTO / Bilibili 增强",
+  "version": "4.0",
   "icons": {
     "48": "icon-48.png"
   },
@@ -21,5 +21,17 @@
   "background": {
     "scripts": ["goto.js"]
   },
+  "content_scripts": [
+    {
+        "matches": [
+            "*://www.bilibili.com/video/*",
+            "*://bangumi.bilibili.com/*"
+        ], "js": [
+            "jquery-3.2.1.min.js",
+            "bilibili-quickdo.user.js"
+        ], "run_at": "document_end"
+    }
+  ],
+  
   "options_page": "options/options.html"
 }
