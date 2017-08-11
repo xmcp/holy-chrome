@@ -1,6 +1,6 @@
 localStorage['rules']=localStorage['rules']||JSON.stringify([
   ["BZOJ","^(bz|BZ)(\\d+)$","http://www.lydsy.com/JudgeOnline/problem.php?id=$2"],
-  ["BZOJ","^(\\d{4})$","http://www.lydsy.com/JudgeOnline/problem.php?id=$1"],
+  //["BZOJ","^(\\d{4})$","http://www.lydsy.com/JudgeOnline/problem.php?id=$1"],
   ["bilibili","^(av|AV)?(\\d+)$","http://bilibili.com/video/av$2"],
   ["UOJ","^(u|uoj|U|UOJ)(\\d+)$","http://uoj.ac/problem/$2"],
   ["POJ","^(p|poj|P|POJ)(\\d+)$","http://poj.org/problem?id=$2"]

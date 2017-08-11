@@ -84,21 +84,21 @@ https://github.com/jeayu/bilibili-quickdo/blob/master/README.md#更新历史
         },
         config: {
             quickDo: {
+                'danmu': 'd',
                 'fullscreen': 'f',
                 'webFullscreen': 'g',
+                'playAndPause': 'p',
                 'addSpeed': ']',
                 'subSpeed': '[',
                 'resetSpeed': '\\',
-                'danmu': 'd',
-                'playAndPause': 'p',
-                'nextPart': '<',
-                'prevPart': '>',
+                'nextVideo': 'n',
+                'skipTheme': 'w',
                 'pushDanmu': 'enter'
             },
             auto: {
                 'switch': 1, //总开关 1开启 0关闭
-                'play': 1, //1开启 0关闭
-                'fullscreen': 1, //1全屏 0关闭
+                'play': 0, //1开启 0关闭
+                'fullscreen': 0, //1全屏 0关闭
                 'danmu': 1 //1开启 0关闭
             },
             initLoopTime: 100,
@@ -134,14 +134,18 @@ https://github.com/jeayu/bilibili-quickdo/blob/master/README.md#更新历史
         bindKeydown: function(){
             var that = this;
             this.currentDocument.keydown(function(e) {
-                if ($("input:focus, textarea:focus", that.currentDocument).length > 0)
+                if(e.ctrlKey || e.altKey) return;
+                that.getH5Player(true);
+                if ({input:1,textarea:1}[e.target.tagName.toLowerCase()])
                     that.pushDanmuHandler(e.keyCode);
                 else
                     that.keyHandler(e.keyCode);
             });
             if (this.isBangumi){
                 $(document).keydown(function(e){
-                    if ($(document).find("input:focus, textarea:focus").length > 0)
+                    if(e.ctrlKey || e.altKey) return;
+                    that.getH5Player(true);
+                    if ({input:1,textarea:1}[e.target.tagName.toLowerCase()])
                         that.pushDanmuHandler(e.keyCode);
                     else
                         that.keyHandler(e.keyCode);
@@ -156,13 +160,18 @@ https://github.com/jeayu/bilibili-quickdo/blob/master/README.md#更新历史
             } else if (keyCode === this.getKeyCode('subSpeed') && player.playbackRate > 0.5) {
                 player.playbackRate -= 0.25;
                 this.showInfoAnimate(player.playbackRate + ' x');
-            } else if(keyCode === this.getKeyCode('resetSpeed') && player.playbackRate > 0.5) {
+            } else if(keyCode === this.getKeyCode('resetSpeed')) {
                 player.playbackRate = 1;
                 this.showInfoAnimate(player.playbackRate + ' x');
+            } else if(keyCode === this.getKeyCode('skipTheme')) {
+                player.currentTime+=80;
+                this.showInfoAnimate('快进');
             } else if (keyCode === this.getKeyCode('fullscreen')){
                 $('.bilibili-player-iconfont.bilibili-player-iconfont-fullscreen', this.currentDocument).click();
             } else if (keyCode === this.getKeyCode('webFullscreen')){
                 $('.bilibili-player-iconfont.bilibili-player-iconfont-widescreen', this.currentDocument).click();
+            } else if (keyCode === this.getKeyCode('nextVideo')){
+                $('.bilibili-player-iconfont.bilibili-player-iconfont-next', this.currentDocument).click();
             } else if (keyCode === this.getKeyCode('danmu')){
                 if ($('.video-state-danmaku-off', this.currentDocument)[0]){
                     this.showInfoAnimate('弹幕开启');
@@ -293,8 +302,8 @@ https://github.com/jeayu/bilibili-quickdo/blob/master/README.md#更新历史
                 });
             }, 1E3);
         },
-        getH5Player: function() {
-            if(this.player && this.player[0])
+        getH5Player: function(rebind) {
+            if(this.player && this.player[0] && this.player[0].src)
                 return this.player;
             var bangumi = /bangumi.bilibili.com/g;
             var iframePlayer = $('iframe.bilibiliHtml5Player');
@@ -308,6 +317,10 @@ https://github.com/jeayu/bilibili-quickdo/blob/master/README.md#更新历史
                 this.currentDocument = $(document);
             }
             this.player = $("body", this.currentDocument).find('.bilibili-player-video video');
+            if(rebind) {
+                this.dblclickFullscreen();
+                this.initInfoStyle();
+            }
             return this.player;
         },
         init: function() {
@@ -321,7 +334,7 @@ https://github.com/jeayu/bilibili-quickdo/blob/master/README.md#更新历史
                         that.initInfoStyle();
                         that.bindEvnet();
                         that.bindKeydown();
-                        that.initSettingHTML();
+                        //that.initSettingHTML();
                     } catch (e) {
                         console.log('playerQuickDo init error');
                     } finally {
