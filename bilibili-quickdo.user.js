@@ -216,6 +216,7 @@ https://github.com/jeayu/bilibili-quickdo/blob/master/README.md#更新历史
             }, this.config.autoLoopTime);
         },
         pushDanmuHandler: function(keyCode){
+            return; //////////////////////////////////////
             if (keyCode !== this.getKeyCode('pushDanmu')){
                 return;
             }
